@@ -10,6 +10,7 @@ export default function Home() {
 
     const [sidebarStatus, setSidebarStatus] = useState<boolean>(true);
 
+    
     return (
         <main className="h-screen flex flex-col overflow-hidden bg-slate-300">
             <div className='flex items-center w-full border-b-2 border-slate-700 shadow-md bg-white'>
