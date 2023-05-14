@@ -1,4 +1,3 @@
-import { promises } from 'dns';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export type ErrorResponse = {
@@ -20,7 +19,7 @@ export type UpdateObjectResponse = {
 
 export type ObjectListResponse = ObjectResponse[];
 
-var ObjectList: ObjectResponse[] = [
+let ObjectList: ObjectListResponse = [
   {
     objectsId: 1,
     type: 1,
@@ -49,8 +48,8 @@ export default async function handler(
     const api_query = req.query;
     if ('api_route' in api_query) {
       const api_route = api_query['api_route'] ?? [];
-      var route_index = 0;
-      var current_route = api_route[route_index++] ?? '';
+      let route_index = 0;
+      const current_route = api_route[route_index++] ?? '';
       if (current_route.toLowerCase() === 'list') {
         // GET /api/object/list
         // GET Get all objects.
