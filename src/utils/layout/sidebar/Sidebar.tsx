@@ -1,46 +1,63 @@
 'use client';
 
-import { Marker } from '@/interfaces/general';
-import { DropDown } from '@/utils/components/dropDown/DropDown';
+import { PositionListResponse, PositionResponse } from '@/pages/api/position/[[...api_route]]';
+import { setMarker } from '@/redux/features/markerSlice';
+import { useAppDispatch } from '@/redux/hooks';
 import React, { useState } from 'react';
 
 interface SidebarProps {
 	isOpen: boolean;
 }
 
-const markers: Marker[] = [
+let readingTime = new Date('2000-01-23T04:56:10.000+00:00');
+let PositionList: PositionListResponse = [
 	{
-		id: 1,
-		x: 0,
-		y: 0,
-		z: 0,
-		isActive: true,
-	},
-	{
-		id: 2,
+		positionId: 1,
+		objectsId: 1,
+		timestamp: new Date(readingTime.setHours(readingTime.getHours())),
 		x: 1,
 		y: 1,
 		z: 1,
-		isActive: true,
 	},
 	{
-		id: 3,
-		x: 2,
-		y: 2,
-		z: 2,
-		isActive: true,
+		positionId: 2,
+		objectsId: 2,
+		timestamp: new Date(readingTime.setHours(readingTime.getHours())),
+		x: 1,
+		y: 1,
+		z: 10,
 	},
 	{
-		id: 4,
-		x: 3,
-		y: 3,
-		z: 3,
-		isActive: true,
+		positionId: 3,
+		objectsId: 3,
+		timestamp: new Date(readingTime.setHours(readingTime.getHours())),
+		x: 1,
+		y: 1,
+		z: 20,
+	},
+	{
+		positionId: 4,
+		objectsId: 1,
+		timestamp: new Date(readingTime.setHours(readingTime.getHours() + 2)),
+		x: 1,
+		y: 10,
+		z: 1,
+	},
+	{
+		positionId: 5,
+		objectsId: 1,
+		timestamp: new Date(readingTime.setHours(readingTime.getHours() + 4)),
+		x: 1,
+		y: 20,
+		z: 1,
 	},
 ];
 
+
 export const Sidebar = ({ isOpen }: SidebarProps) => {
-	const [selectedMarker, setSelectedMarker] = useState<Marker | undefined>(
+
+	const dispatch = useAppDispatch();
+	const [selectedMarker, setSelectedMarker] = useState<PositionResponse | undefined>(
 		undefined
 	);
 
@@ -51,14 +68,17 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
 					<div className="flex-1 w-full text-slate-800 bg-white rounded-md p-2 shadow-xl my-2">
 						<h2 className='p-2 text-lg font-medium'>Markers list</h2>
 						<div className="flx flex-col gap-10 flex-1">
-							{markers.map((item) => (
+							{PositionList.map((item) => (
 								<div
-									key={item.id}
-									className={`text-slate-900 mt-4 hover:bg-slate-500 p-2 rounded-md cursor-pointer ${selectedMarker && selectedMarker.id === item.id && 'bg-slate-500'
+									key={item.objectsId}
+									className={`text-slate-900 mt-4 hover:bg-slate-500 p-2 rounded-md cursor-pointer ${selectedMarker && selectedMarker.positionId === item.positionId && 'bg-slate-500'
 										}`}
-									onClick={() => setSelectedMarker(item)}
+									onClick={() => {
+										setSelectedMarker(item);
+										dispatch(setMarker(item));
+									}}
 								>
-									Marker: {item.id}
+									Marker: {item.objectsId}
 								</div>
 							))}
 						</div>
@@ -73,13 +93,13 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
 						<span>z</span>
 						<span>{selectedMarker ? selectedMarker.z : '---'}</span>
 						<span>isActive</span>
-						<span>
+						{/* <span>
 							{selectedMarker
 								? selectedMarker.isActive
 									? 'True'
 									: 'False'
 								: '---'}
-						</span>
+						</span> */}
 					</div>
 				</div>
 			)}
