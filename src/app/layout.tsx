@@ -1,3 +1,4 @@
+import { Providers } from '@/redux/provider';
 import './globals.css';
 import { Inter } from 'next/font/google';
 
@@ -19,7 +20,9 @@ export default function RootLayout({
       {/* for example the menu secton <menu/>
       then <left section/>
       and finally <main view/> */}
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
