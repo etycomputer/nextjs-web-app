@@ -38,7 +38,7 @@ export function handleUpdateObjectRoute(
     req: NextApiRequest,
     res: NextApiResponse<ObjectResponse | ErrorResponse>,
     id: number,
-    body: UpdateObjectResponse
+    body: UpdateObjectResponse | any
 ) {
     const { type, serial, holeId } = body;
     if (
@@ -64,7 +64,7 @@ export function handleUpdateObjectRoute(
 export function handleAddObjectRoute(
     req: NextApiRequest,
     res: NextApiResponse<ObjectResponse | ErrorResponse>,
-    body: UpdateObjectResponse
+    body: UpdateObjectResponse | any
 ) {
     const { type, serial, holeId } = body;
     if (
