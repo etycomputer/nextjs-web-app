@@ -1,9 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import markerReducer from './features/markerSlice';
 
 export const store = configureStore({
   reducer: {
-    markerReducer
+    markerReducer,
   },
 });
 
