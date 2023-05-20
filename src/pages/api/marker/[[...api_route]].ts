@@ -107,7 +107,7 @@ let ReadingList: ReadingListResponse = [
   },
 ];
 
-export default async function handler (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<MarkerResponse | MarkerListResponse | ErrorResponse>
 ) {
@@ -135,9 +135,7 @@ export default async function handler (
       if (req.method === 'GET') {
         // GET /api/marker/{marker_id}
         // GET Get an marker by its ID.
-        const markerById = MarkerList.find(
-          (obj) => obj.markerId === marker_id
-        );
+        const markerById = MarkerList.find((obj) => obj.markerId === marker_id);
         if (markerById === undefined) {
           res.status(404).json({
             message: 'Object not found.',
@@ -156,7 +154,8 @@ export default async function handler (
           });
           return;
         }
-        const { activated, activationTime, node, subnet } = req.body as UpdateMarkerResponse;
+        const { activated, activationTime, node, subnet } =
+          req.body as UpdateMarkerResponse;
         if (
           !Number.isInteger(subnet) ||
           !Number.isInteger(node) ||
@@ -200,7 +199,8 @@ export default async function handler (
         });
         return;
       }
-      const { activated, activationTime, node, subnet } = req.body as UpdateMarkerResponse;
+      const { activated, activationTime, node, subnet } =
+        req.body as UpdateMarkerResponse;
       if (
         !Number.isInteger(subnet) ||
         !Number.isInteger(node) ||
@@ -217,7 +217,7 @@ export default async function handler (
         activated: activated,
         activationTime: activationTime,
         node: node,
-        subnet: subnet
+        subnet: subnet,
       });
       res.status(200).json(MarkerList[object_index]);
     } else {

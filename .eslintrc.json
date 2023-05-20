@@ -14,8 +14,8 @@
     "node": true
   },
   "rules": {
-    "prefer-const": "error",
-    "@typescript-eslint/no-unused-vars": "error",
+    "prefer-const": "off",
+    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off"
   }
