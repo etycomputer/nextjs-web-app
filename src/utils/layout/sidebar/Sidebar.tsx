@@ -123,40 +123,34 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
 								)
 							}
 						</div>
-						<div className='flex flex-col items-start gap-3 mt-5'>
-							<div className='flex items-center gap-20'>
-								<span>x</span>
-								<TextField
-									disabled={!editStatus}
-									className='w-10'
-									id="standard-number"
-									type="number"
-									variant="standard"
-									value={selectedMarker ? selectedMarker.x : '---'}
-								/>
-							</div>
-							<div className='flex items-center gap-20'>
-								<span>y</span>
-								<TextField
-									disabled={!editStatus}
-									className='w-10'
-									id="standard-number"
-									type="number"
-									variant="standard"
-									value={selectedMarker ? selectedMarker.y : '---'}
-								/>
-							</div>
-							<div className='flex items-center gap-20'>
-								<span>z</span>
-								<TextField
-									disabled={!editStatus}
-									className='w-10'
-									id="standard-number"
-									type="number"
-									variant="standard"
-									value={selectedMarker ? selectedMarker.z : '---'}
-								/>
-							</div>
+						<div className='flex items-start gap-5 mt-5'>
+							<TextField
+								disabled={!editStatus}
+								className='w-10'
+								id="x"
+								label='x'
+								type="number"
+								variant="standard"
+								value={selectedMarker ? selectedMarker.x : '---'}
+							/>
+							<TextField
+								disabled={!editStatus}
+								className='w-10'
+								label='y'
+								id="y"
+								type="number"
+								variant="standard"
+								value={selectedMarker ? selectedMarker.y : '---'}
+							/>
+							<TextField
+								disabled={!editStatus}
+								className='w-10'
+								id="z"
+								type="number"
+								label='z'
+								variant="standard"
+								value={selectedMarker ? selectedMarker.z : '---'}
+							/>
 						</div>
 
 						{/*
