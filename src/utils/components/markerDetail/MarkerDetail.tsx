@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MarkerDetailTabs } from './markerDetail.interface';
 import ThreeObjectViewer from '../threeObjectViewer/ThreeObjectViewer';
+import ChartViewer from '../ChartViewer/chartViewer';
 import { useAppSelector } from '@/redux/hooks';
 
 export const MarkerDetail = () => {
@@ -44,7 +45,9 @@ export const MarkerDetail = () => {
             )}
           </div>
         ) : (
-          <></>
+          <div className="bg-white rounded-lg mt-5 w-full">
+            <ChartViewer />
+          </div>
         )}
       </div>
     </div>
