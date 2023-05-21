@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { MarkerDetail } from '@/utils/components/markerDetail/MarkerDetail';
 
 export default function Home() {
-  const [sidebarStatus, setSidebarStatus] = useState<boolean>(true);
+	const [sidebarStatus, setSidebarStatus] = useState<boolean>(true);
 
   return (
     <main className="h-screen flex flex-col  bg-slate-300">
@@ -14,7 +14,7 @@ export default function Home() {
       </div>
       <div className="relative flex flex-1 p-1">
         <Sidebar isOpen={sidebarStatus} />
-        <div className="flex-1 p-2">
+        <div className="flex-1 p-2 overflow-hidden">
           <MarkerDetail />
         </div>
       </div>
