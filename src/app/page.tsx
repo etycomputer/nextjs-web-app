@@ -14,7 +14,7 @@ export default function Home() {
       </div>
       <div className="relative flex flex-1 p-1">
         <Sidebar isOpen={sidebarStatus} />
-        <div className="flex-1 p-2">
+        <div className="flex-1 p-2 overflow-hidden">
           <MarkerDetail />
         </div>
       </div>
