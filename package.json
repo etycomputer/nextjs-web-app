@@ -21,6 +21,7 @@
     "@react-three/fiber": "^8.13.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/three": "^0.152.0",
+    "d3": "^7.8.4",
     "next": "13.4.2",
     "pg": "^8.11.0",
     "react": "18.2.0",
@@ -32,6 +33,7 @@
     "typeorm": "^0.3.16"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.0",
     "@types/jest": "^29.5.1",
     "@types/node": "^20.1.4",
     "@types/react": "18.2.6",
