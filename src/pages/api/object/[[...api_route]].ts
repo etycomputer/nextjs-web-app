@@ -44,7 +44,12 @@ export default async function handler(
         // PUT /api/object/{object_id}
         // PUT Update an object by its ID.
         const body = req.body;
-        handleUpdateObjectRoute(req, res, object_id, body as UpdateObjectResponse);
+        handleUpdateObjectRoute(
+          req,
+          res,
+          object_id,
+          body as UpdateObjectResponse
+        );
       } else {
         handleInvalidMethod(res);
       }
