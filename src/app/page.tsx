@@ -2,10 +2,10 @@
 
 import { Sidebar } from '@/utils/layout/sidebar/Sidebar';
 import { useState } from 'react';
-import { MarkerDetail } from '@/utils/components/markerDetail/MarkerDetail';
+import { MarkerDetail } from '@/utils/components/markerViewer/MarkerDetail';
 
 export default function Home() {
-	const [sidebarStatus, setSidebarStatus] = useState<boolean>(true);
+  const [sidebarStatus, setSidebarStatus] = useState<boolean>(true);
 
   return (
     <main className="h-screen flex flex-col  bg-slate-300">
