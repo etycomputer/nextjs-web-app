@@ -12,11 +12,11 @@ import {
   addObject,
 } from './object.model';
 
-export function handleObjectListRoute(
+export async function handleObjectListRoute(
   req: NextApiRequest,
   res: NextApiResponse<ObjectListResponse>
 ) {
-  res.status(200).json(getObjectList());
+  res.status(200).json(await getObjectList());
 }
 
 export function handleGetObjectRoute(

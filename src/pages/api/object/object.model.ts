@@ -1,8 +1,12 @@
+import "reflect-metadata"
 import {
   ObjectListResponse,
   ObjectResponse,
   UpdateObjectResponse,
 } from './object.types';
+
+// import { ObjectRepository } from '../../../repositories/object.repository';
+import { entityListToObjectListResponse } from '../../../transformers/object.transformer'
 
 let ObjectList: ObjectListResponse = [
   {
@@ -25,7 +29,20 @@ let ObjectList: ObjectListResponse = [
   },
 ];
 
-export function getObjectList(): ObjectListResponse {
+export async function getObjectList(): Promise<ObjectListResponse> {
+  // let ObjectList: ObjectListResponse;
+  // console.log("11")
+  // try {
+  //   const obj_list = await ObjectRepository.find();
+  //   console.log("22")
+  //   console.log(obj_list.length)
+  //   ObjectList = entityListToObjectListResponse(obj_list);
+  //   console.log("33")
+  // } catch (err) {
+  //   ObjectList = [];
+  //   console.error("Error during getObjectList", err)
+  // }
+  // return ObjectList;
   return ObjectList;
 }
 

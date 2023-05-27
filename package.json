@@ -33,8 +33,7 @@
     "react-redux": "^8.0.5",
     "reflect-metadata": "^0.1.13",
     "server-only": "^0.0.1",
-    "three": "^0.152.2",
-    "typeorm": "^0.3.16"
+    "three": "^0.152.2"
   },
   "devDependencies": {
     "@types/d3": "^7.4.0",
