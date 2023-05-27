@@ -1,0 +1,253 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model command_results {
+  id         Int       @id(map: "command_errors_pkey") @default(autoincrement())
+  error_code Int?
+  error_msg  String?
+  command_id Int?
+  object_id  Int?
+  time       DateTime? @db.Timestamptz(6)
+
+  @@index([command_id], map: "command_errors_command_index")
+  @@index([object_id, time], map: "command_results_object_index")
+}
+
+model drawpoints {
+  id   Int     @id @default(autoincrement())
+  name String? @unique
+  x    Float?
+  y    Float?
+  z    Float?
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model global_settings {
+  id         Int       @id @default(autoincrement())
+  group_name String
+  key_name   String
+  key_value  String?
+  timestamp  DateTime? @db.Timestamptz(6)
+  comments   String?
+
+  @@index([group_name, key_name, timestamp], map: "global_settings_group_key_time_index")
+}
+
+model groups {
+  id          Int     @id @default(autoincrement())
+  name        String?
+  description String?
+  parent_id   Int?
+}
+
+model marker_health_records {
+  id        Int       @id @default(autoincrement())
+  marker_id Int
+  time      DateTime? @db.Timestamptz(6)
+  wor_count Int
+  rx_count  Int
+  tx_count  Int
+  voltage   Float?    @db.Real
+
+  @@index([marker_id, time], map: "marker_health_time_index")
+}
+
+model marker_schedules {
+  id          Int       @id @default(autoincrement())
+  date        DateTime? @db.Timestamptz(6)
+  marker_id   Int
+  schedule_id Int?
+}
+
+model markers {
+  id              Int       @id @default(autoincrement())
+  type            Int?
+  serial          String?
+  hole_id         Int?
+  subnet          Int
+  node            Int
+  activated       Boolean?
+  activation_time DateTime? @db.Timestamptz(6)
+}
+
+model object_groups {
+  id        Int @id @default(autoincrement())
+  object_id Int
+  group_id  Int
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model object_settings {
+  id        Int       @id @default(autoincrement())
+  object_id Int
+  key_name  String
+  key_value String?
+  timestamp DateTime? @db.Timestamptz(6)
+
+  @@index([object_id, key_name, timestamp], map: "settings_object_key_time_index")
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+model objects {
+  id      Int     @id @default(autoincrement())
+  type    Int?
+  serial  String?
+  hole_id Int?
+
+  @@index([hole_id], map: "object_hole_index")
+}
+
+model positions {
+  id        Int       @id @default(autoincrement())
+  x         Float?
+  y         Float?
+  z         Float?
+  time      DateTime? @db.Timestamptz(6)
+  object_id Int?
+
+  @@index([object_id, time], map: "positions_time_index")
+}
+
+model reader_antennas {
+  id            Int     @id @default(autoincrement())
+  type          Int?
+  serial        String?
+  hole_id       Int?
+  switch_number Int
+  reader_id     Int
+}
+
+model reader_health_records {
+  id                Int       @id @default(autoincrement())
+  reader_id         Int
+  time              DateTime? @db.Timestamptz(6)
+  errors            String?
+  supply_volts      Float?    @db.Real
+  batt_volts        Float?    @db.Real
+  power_source      Int?
+  on_network        Boolean?
+  last_network_time DateTime? @db.Timestamptz(6)
+
+  @@index([reader_id, time], map: "reader_health_time_index")
+}
+
+model readers {
+  id             Int       @id @default(autoincrement())
+  type           Int?
+  serial         String?
+  hole_id        Int?
+  name           String
+  ip_address     String?
+  port           Int?
+  byte_offset    BigInt?
+  last_read_time DateTime? @db.Timestamptz(6)
+}
+
+model route_nodes {
+  id                Int  @id @default(autoincrement())
+  object_id         Int?
+  parent_id         Int?
+  route_id          Int
+  status            Int  @default(0)
+  install_result_id Int?
+}
+
+model routes {
+  id                 Int       @id @default(autoincrement())
+  name               String?
+  root_id            Int?
+  status             Int       @default(0)
+  enabled_date       DateTime? @db.Timestamptz(6)
+  disabled_date      DateTime? @db.Timestamptz(6)
+  device_id          String?
+  install_command_id Int?
+}
+
+model rssi_readings {
+  id               Int       @id @default(autoincrement())
+  time             DateTime? @db.Timestamptz(6)
+  rssi             Int?
+  origin_address   Int?
+  response_address Int?
+
+  @@unique([time, origin_address, response_address])
+  @@index([origin_address, time], map: "rssi_origin_time_index")
+  @@index([response_address, time], map: "rssi_response_time_index")
+}
+
+model schedule_periods {
+  id          Int       @id @default(autoincrement())
+  schedule_id Int
+  start_time  DateTime? @db.Time(6)
+  stop_time   DateTime? @db.Time(6)
+}
+
+model scheduled_commands {
+  id               Int       @id @default(autoincrement())
+  type             Int
+  scheduled_time   DateTime? @db.Timestamptz(6)
+  executed_time    DateTime? @db.Timestamptz(6)
+  object_id        Int?
+  recurring_period Int?
+}
+
+model schedules {
+  id     Int      @id @default(autoincrement())
+  name   String?
+  active Boolean?
+}
+
+model sms_reader_detections {
+  id            Int      @id @default(autoincrement())
+  reader_serial Int
+  marker_serial Int
+  timestamp     DateTime @db.Timestamptz(6)
+  marker_type   Int      @db.SmallInt
+  marker_rssi   Int?
+  reader_rssi   Int?
+
+  @@index([reader_serial, marker_type, timestamp], map: "sms_reader_detections_time_index")
+}
+
+model tilt_readings {
+  id                   Int       @id @default(autoincrement())
+  marker_id            Int
+  time                 DateTime? @db.Timestamptz(6)
+  x_tilt               Float?    @db.Real
+  y_tilt               Float?    @db.Real
+  z_tilt               Float?    @db.Real
+  x_mag                Float?    @db.Real
+  y_mag                Float?    @db.Real
+  z_mag                Float?    @db.Real
+  temperature          Float?    @db.Real
+  pressure             Float?    @db.Real
+  format_type          Int?      @db.SmallInt
+  temperature_pressure Float?    @db.Real
+
+  @@unique([marker_id, time])
+  @@index([marker_id, time], map: "tilt_time_index")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_attributes {
+  id                Int     @id @default(autoincrement())
+  attribute_name    String  @unique
+  attribute_comment String
+  attribute_enabled Boolean
+}
+
+model user_configurations {
+  id             Int       @id @default(autoincrement())
+  user_config_id Int
+  config_name    String
+  comments       String?
+  enabled        Boolean
+  settings       Json?
+  creation_time  DateTime? @db.Timestamptz(6)
+}
