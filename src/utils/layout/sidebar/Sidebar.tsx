@@ -152,16 +152,6 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
 								value={selectedMarker ? selectedMarker.z : '---'}
 							/>
 						</div>
-
-						{/*
-						<span>isActive</span> */}
-						{/* <span>
-							{selectedMarker
-								? selectedMarker.isActive
-									? 'True'
-									: 'False'
-								: '---'}
-						</span> */}
 					</div>
 				</div>
 			)}

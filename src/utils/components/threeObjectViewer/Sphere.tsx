@@ -33,7 +33,7 @@ export const Sphere = ({ marker, onHover }: SphereProps) => {
 				onPointerOver={() => setHover(true)}
 				onPointerOut={() => setHover(false)}
 			>
-				<sphereBufferGeometry args={[1, 64, 64]} />
+				<sphereGeometry args={[1, 64, 64]} />
 				<meshStandardMaterial color={hovered || selectedMarker?.positionId === marker.positionId ? 'hotpink' : 'orange'} />
 			</mesh>
 		</>
