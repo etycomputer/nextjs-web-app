@@ -28,7 +28,7 @@ export default async function handler(
       if (current_route.toLowerCase() === 'list') {
         // GET /api/object/list
         // GET Get all objects.
-        handleObjectListRoute(res);
+        handleObjectListRoute(req, res);
         return;
       }
       const object_id = Number.parseInt(current_route);
@@ -39,13 +39,13 @@ export default async function handler(
       if (req.method === 'GET') {
         // GET /api/object/{object_id}
         // GET Get an object by its ID.
-        handleGetObjectRoute(res, object_id);
+        handleGetObjectRoute(req, res, object_id);
       } else if (req.method === 'PUT') {
         // PUT /api/object/{object_id}
         // PUT Update an object by its ID.
         const body = req.body;
         handleUpdateObjectRoute(
-
+          req,
           res,
           object_id,
           body as UpdateObjectResponse
@@ -57,7 +57,7 @@ export default async function handler(
       // POST /api/object
       // POST Add a new object.
       const body = req.body;
-      handleAddObjectRoute(res, body as UpdateObjectResponse);
+      handleAddObjectRoute(req, res, body as UpdateObjectResponse);
     } else {
       handleInvalidMethod(res);
     }

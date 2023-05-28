@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiResponse } from 'next';
 import {
   ErrorResponse,
   ObjectResponse,
@@ -13,88 +13,95 @@ import {
 } from './object.model';
 
 export async function handleObjectListRoute(
-  req: NextApiRequest,
-  res: NextApiResponse<ObjectListResponse>
+  res: NextApiResponse<ObjectListResponse | ErrorResponse>
 ) {
-  res.status(200).json(await getObjectList());
+  const response = await getObjectList();
+  if ('status' in response) {
+    res.status(response.status).json(response);
+    return;
+  }
+  res.status(200).json(response);
 }
 
-export function handleGetObjectRoute(
-  req: NextApiRequest,
+export async function handleGetObjectRoute(
   res: NextApiResponse<ObjectResponse | ErrorResponse>,
   id: number
 ) {
-  const objectById = getObjectById(id);
-  if (objectById === undefined) {
-    res.status(404).json({
-      message: 'Object not found.',
-    });
+  const response = await getObjectById(id);
+  if ('status' in response) {
+    res.status(response.status).json(response);
     return;
   }
-  res.status(200).json(objectById);
+  res.status(200).json(response);
 }
 
-export function handleUpdateObjectRoute(
-  req: NextApiRequest,
+export async function handleUpdateObjectRoute(
   res: NextApiResponse<ObjectResponse | ErrorResponse>,
   id: number,
   body: UpdateObjectResponse | any
 ) {
   const { type, serial, holeId } = body;
   if (
-    !Number.isInteger(type) ||
-    !Number.isInteger(holeId) ||
-    typeof serial !== 'string'
+    !(type === null || Number.isInteger(type)) ||
+    !(holeId === null || Number.isInteger(holeId)) ||
+    !(serial === null || typeof serial === 'string')
   ) {
     res.status(400).json({
+      status: 400,
       message: 'Invalid request body.',
     });
     return;
   }
-  const updatedObject = updateObjectById(id, { type, serial, holeId });
-  if (updatedObject === undefined) {
-    res.status(404).json({
-      message: 'Object not found.',
-    });
+  const response = await updateObjectById(id, { type, serial, holeId });
+  if ('status' in response) {
+    res.status(response.status).json(response);
     return;
   }
-  res.status(200).json(updatedObject);
+  res.status(200).json(response);
 }
 
-export function handleAddObjectRoute(
-  req: NextApiRequest,
+export async function handleAddObjectRoute(
   res: NextApiResponse<ObjectResponse | ErrorResponse>,
   body: UpdateObjectResponse | any
 ) {
   const { type, serial, holeId } = body;
   if (
-    !Number.isInteger(type) ||
-    !Number.isInteger(holeId) ||
-    typeof serial !== 'string'
+    !(type === null || Number.isInteger(type)) ||
+    !(holeId === null || Number.isInteger(holeId)) ||
+    !(serial === null || typeof serial === 'string')
   ) {
     res.status(400).json({
+      status: 400,
       message: 'Invalid request body.',
     });
     return;
   }
-  const newObject = addObject({ type, serial, holeId });
-  res.status(200).json(newObject);
+  const response = await addObject({ type, serial, holeId });
+  console.log(JSON.stringify(response));
+  if ('status' in response) {
+    res.status(response.status).json(response);
+    return;
+  }
+  res.status(200).json(response);
 }
 
 export function handleInvalidRoute(res: NextApiResponse<ErrorResponse>) {
   res.status(400).json({
+    status: 400,
     message: 'Invalid request parameter.',
   });
 }
 
 export function handleInvalidMethod(res: NextApiResponse<ErrorResponse>) {
   res.status(405).json({
+    status: 405,
     message: 'Invalid request method.',
   });
 }
 
 export function handleServerError(res: NextApiResponse<ErrorResponse>) {
   res.status(500).json({
+    status: 500,
     message: 'Failed to load data.',
   });
 }
