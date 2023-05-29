@@ -1,7 +1,7 @@
 export type ErrorResponse = {
   status: number;
   message: string;
-}
+};
 export type ObjectResponse = {
   objectsId: number;
   type: number | null;
